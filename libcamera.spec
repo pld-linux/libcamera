@@ -17,6 +17,9 @@ BuildRequires:	glib2-devel
 BuildRequires:	gnutls-devel
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	gstreamer-plugins-base-devel >= 1.14
+%ifarch %{armv6}
+BuildRequires:	libatomic-devel
+%endif
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libunwind-devel
 BuildRequires:	lttng-ust-devel
@@ -29,7 +32,7 @@ BuildRequires:	python3-PyYAML
 BuildRequires:	python3-jinja2
 BuildRequires:	python3-ply
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	rpmbuild(macros) >= 2.007
 %{?with_apidocs:BuildRequires:	sphinx-pdg}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	udev-devel
