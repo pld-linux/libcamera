@@ -1,0 +1,11 @@
+--- libcamera-0.0.1/Documentation/meson.build.orig	2022-10-30 00:43:47.000000000 +0200
++++ libcamera-0.0.1/Documentation/meson.build	2022-10-30 02:11:13.834316932 +0200
+@@ -53,7 +53,7 @@
+     sphinx = find_program('sphinx-build', required : get_option('documentation'))
+ endif
+ 
+-if sphinx.found()
++if not get_option('documentation').disabled() and sphinx.found()
+     docs_sources = [
+         'coding-style.rst',
+         'conf.py',
