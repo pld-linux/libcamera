@@ -123,11 +123,24 @@ GStreamer plugin for accessing libcamera devices.
 %patch0 -p1
 
 %build
+ipas="vimc"
+pipelines="simple,uvcvideo,vimc"
+%ifarch %{ix86} %{x8664} x32
+ipas="$ipas,ipu3"
+pipelines="$pipelines,ipu3"
+%endif
+%ifarch %{arm} aarch64
+ipas="$ipas,raspberrypi,rkisp1"
+pipelines="$pipelines,raspberrypi,rkisp1"
+%endif
+
 %meson build \
 	-Dcam=disabled \
 	-Ddocumentation=%{__enabled_disabled apidocs} \
 	-Dgstreamer=enabled \
+	-Dipas=$ipas \
 	-Dlc-compliance=disabled \
+	-Dpipelines=$pipelines \
 	-Dqcam=disabled \
 	-Dv4l2=true
 
@@ -170,12 +183,15 @@ rm -rf $RPM_BUILD_ROOT
 %doc build/Documentation/api-html build/Documentation/html
 %endif
 
+%ifarch %{ix86} %{x8664} x32
 %files ipa-ipu3
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libcamera/ipa_ipu3.so
 %attr(755,root,root) %{_libexecdir}/libcamera/ipu3_ipa_proxy
 %{_datadir}/libcamera/ipa/ipu3
+%endif
 
+%ifarch %{arm} aarch64
 %files ipa-raspberrypi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libcamera/ipa_rpi.so
@@ -187,6 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libcamera/ipa_rkisp1.so
 %attr(755,root,root) %{_libexecdir}/libcamera/rkisp1_ipa_proxy
 %{_datadir}/libcamera/ipa/rkisp1
+%endif
 
 %files ipa-vimc
 %defattr(644,root,root,755)
