@@ -4,12 +4,12 @@
 
 Summary:	A complex camera support library
 Name:		libcamera
-Version:	0.0.1
+Version:	0.0.3
 Release:	0.1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	%{name}-%{version}.tar.xz
-# Source0-md5:	2abc10f6026717d448f1d95d8cc6ff36
+# Source0-md5:	541b22540977d26edcd652fbc1acf0ac
 Patch0:		no-docs.patch
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	elfutils-devel
@@ -134,7 +134,7 @@ pipelines="$pipelines,ipu3"
 %endif
 %ifarch %{arm} aarch64
 ipas="$ipas,raspberrypi,rkisp1"
-pipelines="$pipelines,raspberrypi,rkisp1"
+pipelines="$pipelines,imx8-isi,raspberrypi,rkisp1"
 %endif
 
 %meson build \
@@ -165,8 +165,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.rst
-%attr(755,root,root) %{_libdir}/libcamera.so.0.0.1
-%attr(755,root,root) %{_libdir}/libcamera-base.so.0.0.1
+%attr(755,root,root) %{_libdir}/libcamera.so.%{version}
+%attr(755,root,root) %{_libdir}/libcamera-base.so.%{version}
 %dir %{_libdir}/libcamera
 %dir %{_libexecdir}/libcamera
 %dir %{_datadir}/libcamera
