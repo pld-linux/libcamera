@@ -1,8 +1,9 @@
 #
 # Conditional build:
-%bcond_without	apidocs		# build without API docs
+%bcond_without	apidocs		# Sphinx/doxygen based API documentation
 
 Summary:	A complex camera support library
+Summary(pl.UTF-8):	Biblioteka obsługi złożonych kamer
 Name:		libcamera
 Version:	0.0.3
 Release:	0.1
@@ -20,14 +21,14 @@ BuildRequires:	gstreamer-plugins-base-devel >= 1.14
 %ifarch %{armv6}
 BuildRequires:	libatomic-devel
 %endif
-BuildRequires:	libstdc++-devel >= 6:5
+BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libunwind-devel
 BuildRequires:	lttng-ust-devel
 BuildRequires:	meson >= 0.56.0
-BuildRequires:	ninja
+BuildRequires:	ninja >= 1.5
 BuildRequires:	openssl-tools
 BuildRequires:	pkgconfig
-BuildRequires:	python3
+BuildRequires:	python3 >= 1:3
 BuildRequires:	python3-PyYAML
 BuildRequires:	python3-jinja2
 BuildRequires:	python3-ply
@@ -58,68 +59,100 @@ distributions, ChromeOS and Android.
 
 %package devel
 Summary:	Header files for libcamera library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libcamera
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for libcamera library.
 
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki libcamera.
+
 %package apidocs
 Summary:	API documentation for libcamera library
+Summary(pl.UTF-8):	Dokumentacja API biblioteki libcamera
 Group:		Documentation
 BuildArch:	noarch
 
 %description apidocs
 API documentation for libcamera library.
 
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki libcamera.
+
 %package ipa-ipu3
 Summary:	libcamera IPA plugin for Intel Image Processing Unit 3
+Summary(pl.UTF-8):	Wtyczka IPA libcamera do Intel Image Processing Unit 3
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description ipa-ipu3
 libcamera IPA plugin for Intel Image Processing Unit 3.
 
+%description ipa-ipu3 -l pl.UTF-8
+Wtyczka IPA libcamera do Intel Image Processing Unit 3.
+
 %package ipa-raspberrypi
 Summary:	libcamera IPA plugin for Raspberry Pi
+Summary(pl.UTF-8):	Wtyczka IPA libcamera do Raspberry Pi
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description ipa-raspberrypi
 libcamera IPA plugin for Raspberry Pi.
 
+%description ipa-raspberrypi -l pl.UTF-8
+Wtyczka IPA libcamera do Raspberry Pi.
+
 %package ipa-rkisp1
 Summary:	libcamera IPA plugin for Rockchip Image Signal Processor
+Summary(pl.UTF-8):	Wtyczka IPA libcamera do Rockchip Image Signal Processor
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description ipa-rkisp1
 libcamera IPA plugin for Rockchip Image Signal Processor.
 
+%description ipa-rkisp1 -l pl.UTF-8
+Wtyczka IPA libcamera do Rockchip Image Signal Processor.
+
 %package ipa-vimc
 Summary:	libcamera IPA plugin for Virtual Media Controller Driver
+Summary(pl.UTF-8):	Wtyczka IPA libcamera do sterownika Virtual Media Controller Driver
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description ipa-vimc
 libcamera IPA plugin for Virtual Media Controller Driver.
 
+%description ipa-vimc -l pl.UTF-8
+Wtyczka IPA libcamera do sterownika Virtual Media Controller Driver.
+
 %package v4l2-compat
 Summary:	libcamera compatibility layer providing Video4Linux2 interface
+Summary(pl.UTF-8):	Warstwa zgodności libcamera udostępniająca interfejs Video4Linux2
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description v4l2-compat
 libcamera compatibility layer providing Video4Linux2 interface.
 
+%description v4l2-compat -l pl.UTF-8
+Warstwa zgodności libcamera udostępniająca interfejs Video4Linux2.
+
 %package -n gstreamer-libcamera
 Summary:	GStreamer plugin for accessing libcamera devices
+Summary(pl.UTF-8):	Wtyczka GStreamera do dostępu do urządzeń libcamera
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gstreamer-plugins-base >= 1.14
 
 %description -n gstreamer-libcamera
 GStreamer plugin for accessing libcamera devices.
+
+%description -n gstreamer-libcamera -l pl.UTF-8
+Wtyczka GStreamera do dostępu do urządzeń libcamera.
 
 %prep
 %setup -q
@@ -168,7 +201,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libcamera.so.%{version}
 %attr(755,root,root) %{_libdir}/libcamera-base.so.%{version}
 %dir %{_libdir}/libcamera
+%if "%{_libexecdir}" != "%{_libdir}"
 %dir %{_libexecdir}/libcamera
+%endif
 %dir %{_datadir}/libcamera
 %dir %{_datadir}/libcamera/ipa
 
