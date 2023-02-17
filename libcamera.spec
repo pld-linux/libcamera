@@ -5,12 +5,12 @@
 Summary:	A complex camera support library
 Summary(pl.UTF-8):	Biblioteka obsługi złożonych kamer
 Name:		libcamera
-Version:	0.0.3
+Version:	0.0.4
 Release:	0.1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	%{name}-%{version}.tar.xz
-# Source0-md5:	541b22540977d26edcd652fbc1acf0ac
+# Source0-md5:	e8a6eb5d7266d2ec95fd2f355868e1e5
 Patch0:		no-docs.patch
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	elfutils-devel
