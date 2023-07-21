@@ -5,12 +5,12 @@
 Summary:	A complex camera support library
 Summary(pl.UTF-8):	Biblioteka obsługi złożonych kamer
 Name:		libcamera
-Version:	0.0.5
+Version:	0.1.0
 Release:	0.1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	%{name}-%{version}.tar.xz
-# Source0-md5:	ed2e77f3f75c0842e6a12fb57cf21f6c
+# Source0-md5:	832e20ccd7bba1f95aa97276d7d2d162
 Patch0:		no-docs.patch
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	elfutils-devel
@@ -24,7 +24,7 @@ BuildRequires:	libatomic-devel
 BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libunwind-devel
 BuildRequires:	lttng-ust-devel
-BuildRequires:	meson >= 0.56.0
+BuildRequires:	meson >= 0.57.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	openssl-tools
 BuildRequires:	pkgconfig
@@ -166,8 +166,8 @@ ipas="$ipas,ipu3"
 pipelines="$pipelines,ipu3"
 %endif
 %ifarch %{arm} aarch64
-ipas="$ipas,raspberrypi,rkisp1"
-pipelines="$pipelines,imx8-isi,raspberrypi,rkisp1"
+ipas="$ipas,rpi/vc4,rkisp1"
+pipelines="$pipelines,imx8-isi,rpi/vc4,rkisp1"
 %endif
 
 %meson build \
@@ -198,8 +198,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.rst
-%attr(755,root,root) %{_libdir}/libcamera.so.%{version}
-%attr(755,root,root) %{_libdir}/libcamera-base.so.%{version}
+%attr(755,root,root) %{_libdir}/libcamera.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libcamera.so.0.1
+%attr(755,root,root) %{_libdir}/libcamera-base.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libcamera-base.so.0.1
 %dir %{_libdir}/libcamera
 %if "%{_libexecdir}" != "%{_libdir}"
 %dir %{_libexecdir}/libcamera
@@ -232,9 +234,9 @@ rm -rf $RPM_BUILD_ROOT
 %ifarch %{arm} aarch64
 %files ipa-raspberrypi
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libcamera/ipa_rpi.so
+%attr(755,root,root) %{_libdir}/libcamera/ipa_rpi_vc4.so
 %attr(755,root,root) %{_libexecdir}/libcamera/raspberrypi_ipa_proxy
-%{_datadir}/libcamera/ipa/raspberrypi
+%{_datadir}/libcamera/ipa/rpi
 
 %files ipa-rkisp1
 %defattr(644,root,root,755)
@@ -252,7 +254,7 @@ rm -rf $RPM_BUILD_ROOT
 %files v4l2-compat
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/libcamerify
-%attr(755,root,root) %{_libdir}/v4l2-compat.so
+%attr(755,root,root) %{_libexecdir}/libcamera/v4l2-compat.so
 
 %files -n gstreamer-libcamera
 %defattr(644,root,root,755)
