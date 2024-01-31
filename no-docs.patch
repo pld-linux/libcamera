@@ -7,5 +7,6 @@
 -if sphinx.found()
 +if not get_option('documentation').disabled() and sphinx.found()
      docs_sources = [
-         'coding-style.rst',
+         'camera-sensor-model.rst',
+         'code-of-conduct.rst',
          'conf.py',

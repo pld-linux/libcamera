@@ -5,12 +5,12 @@
 Summary:	A complex camera support library
 Summary(pl.UTF-8):	Biblioteka obsługi złożonych kamer
 Name:		libcamera
-Version:	0.1.0
+Version:	0.2.0
 Release:	0.1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	%{name}-%{version}.tar.xz
-# Source0-md5:	832e20ccd7bba1f95aa97276d7d2d162
+# Source0-md5:	8f8d755e545240739d8e630054631e07
 Patch0:		no-docs.patch
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	elfutils-devel
@@ -24,7 +24,7 @@ BuildRequires:	libatomic-devel
 BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libunwind-devel
 BuildRequires:	lttng-ust-devel
-BuildRequires:	meson >= 0.57.0
+BuildRequires:	meson >= 0.60
 BuildRequires:	ninja >= 1.5
 BuildRequires:	openssl-tools
 BuildRequires:	pkgconfig
@@ -199,9 +199,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.rst
 %attr(755,root,root) %{_libdir}/libcamera.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libcamera.so.0.1
+%attr(755,root,root) %ghost %{_libdir}/libcamera.so.0.2
 %attr(755,root,root) %{_libdir}/libcamera-base.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libcamera-base.so.0.1
+%attr(755,root,root) %ghost %{_libdir}/libcamera-base.so.0.2
 %dir %{_libdir}/libcamera
 %if "%{_libexecdir}" != "%{_libdir}"
 %dir %{_libexecdir}/libcamera
