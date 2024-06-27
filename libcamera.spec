@@ -5,12 +5,12 @@
 Summary:	A complex camera support library
 Summary(pl.UTF-8):	Biblioteka obsługi złożonych kamer
 Name:		libcamera
-Version:	0.2.0
+Version:	0.3.0
 Release:	0.1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	%{name}-%{version}.tar.xz
-# Source0-md5:	8f8d755e545240739d8e630054631e07
+# Source0-md5:	b2c84de368c8754e05f6572b0286f993
 Patch0:		no-docs.patch
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	elfutils-devel
@@ -117,6 +117,18 @@ libcamera IPA plugin for Rockchip Image Signal Processor.
 %description ipa-rkisp1 -l pl.UTF-8
 Wtyczka IPA libcamera do Rockchip Image Signal Processor.
 
+%package ipa-soft-simple
+Summary:	Simple software libcamera IPA plugin
+Summary(pl.UTF-8):	Prosta programowa wtyczka IPA libcamera
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description ipa-soft-simple
+Simple software libcamera IPA plugin.
+
+%description ipa-soft-simple -l pl.UTF-8
+Prosta programowa wtyczka IPA libcamera.
+
 %package ipa-vimc
 Summary:	libcamera IPA plugin for Virtual Media Controller Driver
 Summary(pl.UTF-8):	Wtyczka IPA libcamera do sterownika Virtual Media Controller Driver
@@ -159,7 +171,7 @@ Wtyczka GStreamera do dostępu do urządzeń libcamera.
 %patch0 -p1
 
 %build
-ipas="vimc"
+ipas="simple,vimc"
 pipelines="simple,uvcvideo,vimc"
 %ifarch %{ix86} %{x8664} x32
 ipas="$ipas,ipu3"
@@ -167,7 +179,7 @@ pipelines="$pipelines,ipu3"
 %endif
 %ifarch %{arm} aarch64
 ipas="$ipas,rpi/vc4,rkisp1"
-pipelines="$pipelines,imx8-isi,rpi/vc4,rkisp1"
+pipelines="$pipelines,imx8-isi,mali-c55,rpi/vc4,rkisp1"
 %endif
 
 %meson build \
@@ -199,9 +211,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.rst
 %attr(755,root,root) %{_libdir}/libcamera.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libcamera.so.0.2
+%attr(755,root,root) %ghost %{_libdir}/libcamera.so.0.3
 %attr(755,root,root) %{_libdir}/libcamera-base.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libcamera-base.so.0.2
+%attr(755,root,root) %ghost %{_libdir}/libcamera-base.so.0.3
 %dir %{_libdir}/libcamera
 %if "%{_libexecdir}" != "%{_libdir}"
 %dir %{_libexecdir}/libcamera
@@ -244,6 +256,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libexecdir}/libcamera/rkisp1_ipa_proxy
 %{_datadir}/libcamera/ipa/rkisp1
 %endif
+
+%files ipa-soft-simple
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcamera/ipa_soft_simple.so
+%attr(755,root,root) %{_libexecdir}/libcamera/soft_ipa_proxy
+%{_datadir}/libcamera/ipa/simple
 
 %files ipa-vimc
 %defattr(644,root,root,755)
