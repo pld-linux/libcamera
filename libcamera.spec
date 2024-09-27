@@ -5,15 +5,16 @@
 Summary:	A complex camera support library
 Summary(pl.UTF-8):	Biblioteka obsługi złożonych kamer
 Name:		libcamera
-Version:	0.3.0
+Version:	0.3.2
 Release:	0.1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	%{name}-%{version}.tar.xz
-# Source0-md5:	b2c84de368c8754e05f6572b0286f993
+# Source0-md5:	231fa8fe685b80a7cfc28156dabe86e8
 Patch0:		no-docs.patch
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	elfutils-devel
+BuildRequires:	gcc >= 6:9
 BuildRequires:	glib2-devel
 BuildRequires:	gnutls-devel
 %{?with_apidocs:BuildRequires:	graphviz}
@@ -24,7 +25,7 @@ BuildRequires:	libatomic-devel
 BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libunwind-devel
 BuildRequires:	lttng-ust-devel
-BuildRequires:	meson >= 0.60
+BuildRequires:	meson >= 0.63
 BuildRequires:	ninja >= 1.5
 BuildRequires:	openssl-tools
 BuildRequires:	pkgconfig
