@@ -30,9 +30,11 @@ BuildRequires:	ninja >= 1.5
 BuildRequires:	openssl-tools
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
+BuildRequires:	python3-devel >= 1:3
 BuildRequires:	python3-PyYAML
 BuildRequires:	python3-jinja2
 BuildRequires:	python3-ply
+BuildRequires:	python3-pybind11
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 2.042
 %{?with_apidocs:BuildRequires:	sphinx-pdg}
@@ -167,6 +169,18 @@ GStreamer plugin for accessing libcamera devices.
 %description -n gstreamer-libcamera -l pl.UTF-8
 Wtyczka GStreamera do dostępu do urządzeń libcamera.
 
+%package -n python3-libcamera
+Summary:	Python bindings for libcamera library
+Summary(pl.UTF-8):	Wiązania Pythona do biblioteki libcamera
+Group:		Development/Languages/Python
+Requires:	%{name} = %{version}-%{release}
+
+%description -n python3-libcamera
+Python bindings for libcamera library.
+
+%description -n python3-libcamera -l pl.UTF-8
+Wiązania Pythona do biblioteki libcamera.
+
 %prep
 %setup -q
 %patch -P0 -p1
@@ -201,6 +215,9 @@ rm -rf $RPM_BUILD_ROOT
 %meson_install
 
 %{?with_apidocs:%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}}
+
+%py3_comp $RPM_BUILD_ROOT%{py3_sitedir}/libcamera
+%py3_ocomp $RPM_BUILD_ROOT%{py3_sitedir}/libcamera
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -278,3 +295,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n gstreamer-libcamera
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/gstreamer-1.0/libgstlibcamera.so
+
+%files -n python3-libcamera
+%defattr(644,root,root,755)
+%dir %{py3_sitedir}/libcamera
+%{py3_sitedir}/libcamera/__init__.py
+%{py3_sitedir}/libcamera/__pycache__
+%attr(755,root,root) %{py3_sitedir}/libcamera/_libcamera.so
