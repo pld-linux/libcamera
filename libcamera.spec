@@ -34,7 +34,7 @@ BuildRequires:	python3-PyYAML
 BuildRequires:	python3-jinja2
 BuildRequires:	python3-ply
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 2.007
+BuildRequires:	rpmbuild(macros) >= 2.042
 %{?with_apidocs:BuildRequires:	sphinx-pdg}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	udev-devel
@@ -183,7 +183,7 @@ ipas="$ipas,rpi/vc4,rkisp1"
 pipelines="$pipelines,imx8-isi,mali-c55,rpi/vc4,rkisp1"
 %endif
 
-%meson build \
+%meson \
 	-Dcam=disabled \
 	-Ddocumentation=%{__enabled_disabled apidocs} \
 	-Dgstreamer=enabled \
@@ -193,12 +193,12 @@ pipelines="$pipelines,imx8-isi,mali-c55,rpi/vc4,rkisp1"
 	-Dqcam=disabled \
 	-Dv4l2=true
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %{?with_apidocs:%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}}
 
