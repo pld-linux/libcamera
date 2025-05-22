@@ -169,7 +169,7 @@ Wtyczka GStreamera do dostępu do urządzeń libcamera.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 ipas="simple,vimc"
