@@ -19,7 +19,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	gnutls-devel
 %{?with_apidocs:BuildRequires:	graphviz}
 BuildRequires:	gstreamer-plugins-base-devel >= 1.14
-%ifarch %{armv6}
+%ifnarch %arch_with_atomics64
 BuildRequires:	libatomic-devel
 %endif
 BuildRequires:	libstdc++-devel >= 6:8
