@@ -5,12 +5,12 @@
 Summary:	A complex camera support library
 Summary(pl.UTF-8):	Biblioteka obsługi złożonych kamer
 Name:		libcamera
-Version:	0.3.2
+Version:	0.5.0
 Release:	0.1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	%{name}-%{version}.tar.xz
-# Source0-md5:	231fa8fe685b80a7cfc28156dabe86e8
+# Source0-md5:	35485bd6566b633734cdfec8a6ec4802
 Patch0:		no-docs.patch
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	elfutils-devel
@@ -21,6 +21,9 @@ BuildRequires:	gnutls-devel
 BuildRequires:	gstreamer-plugins-base-devel >= 1.14
 %ifnarch %arch_with_atomics64
 BuildRequires:	libatomic-devel
+%endif
+%ifarch %{arm} aarch64
+BuildRequires:	libpisp-devel
 %endif
 BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libunwind-devel
@@ -95,6 +98,18 @@ libcamera IPA plugin for Intel Image Processing Unit 3.
 
 %description ipa-ipu3 -l pl.UTF-8
 Wtyczka IPA libcamera do Intel Image Processing Unit 3.
+
+%package ipa-mali-c55
+Summary:	libcamera IPA plugin for Mali-C55 ISP
+Summary(pl.UTF-8):	Wtyczka IPA libcamera do Mali-C55 ISP
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description ipa-mali-c55
+libcamera IPA plugin for Mali-C55 ISP.
+
+%description ipa-mali-c55 -l pl.UTF-8
+Wtyczka IPA libcamera do Mali-C55 ISP.
 
 %package ipa-raspberrypi
 Summary:	libcamera IPA plugin for Raspberry Pi
@@ -193,8 +208,8 @@ ipas="$ipas,ipu3"
 pipelines="$pipelines,ipu3"
 %endif
 %ifarch %{arm} aarch64
-ipas="$ipas,rpi/vc4,rkisp1"
-pipelines="$pipelines,imx8-isi,mali-c55,rpi/vc4,rkisp1"
+ipas="$ipas,mali-c55,rpi/pisp,rpi/vc4,rkisp1"
+pipelines="$pipelines,imx8-isi,mali-c55,rpi/pisp,rpi/vc4,rkisp1"
 %endif
 
 %meson \
@@ -229,9 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.rst
 %attr(755,root,root) %{_libdir}/libcamera.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libcamera.so.0.3
+%attr(755,root,root) %ghost %{_libdir}/libcamera.so.0.5
 %attr(755,root,root) %{_libdir}/libcamera-base.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libcamera-base.so.0.3
+%attr(755,root,root) %ghost %{_libdir}/libcamera-base.so.0.5
 %dir %{_libdir}/libcamera
 %if "%{_libexecdir}" != "%{_libdir}"
 %dir %{_libexecdir}/libcamera
@@ -262,8 +277,15 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %ifarch %{arm} aarch64
+%files ipa-mali-c55
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcamera/ipa_mali_c55.so
+%attr(755,root,root) %{_libexecdir}/libcamera/mali-c55_ipa_proxy
+%{_datadir}/libcamera/ipa/mali-c55
+
 %files ipa-raspberrypi
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcamera/ipa_rpi_pisp.so
 %attr(755,root,root) %{_libdir}/libcamera/ipa_rpi_vc4.so
 %attr(755,root,root) %{_libexecdir}/libcamera/raspberrypi_ipa_proxy
 %{_datadir}/libcamera/ipa/rpi
